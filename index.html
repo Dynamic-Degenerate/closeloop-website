@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Closeloop — Real Estate Transactions, On Autopilot</title>
+<meta name="description" content="Closeloop is the AI-powered transaction management platform for real estate agents. Track deadlines, scan contracts, nurture leads, and close faster.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#1D9E75;
+    --primary-dark:#167A5B;
+    --primary-light:#E6F5EF;
+    --ink:#0F1A17;
+    --gray-900:#111827;
+    --gray-700:#374151;
+    --gray-500:#6B7280;
+    --gray-300:#D1D5DB;
+    --gray-100:#F3F4F6;
+    --white:#FFFFFF;
+    --radius:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    color:var(--gray-900);
+    background:var(--white);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 24px;}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:13px 24px;border-radius:10px;font-weight:600;font-size:15px;
+    border:1px solid transparent;cursor:pointer;transition:all .15s ease;
+    white-space:nowrap;
+  }
+  .btn-primary{background:var(--primary);color:#fff;}
+  .btn-primary:hover{background:var(--primary-dark);}
+  .btn-ghost{background:transparent;color:var(--gray-900);border-color:var(--gray-300);}
+  .btn-ghost:hover{border-color:var(--gray-900);}
+  .btn-light{background:#fff;color:var(--primary-dark);}
+  .btn-light:hover{background:var(--primary-light);}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:13px;font-weight:600;color:var(--primary-dark);
+    background:var(--primary-light);padding:6px 14px;border-radius:999px;
+    margin-bottom:20px;
+  }
+
+  /* NAV */
+  header{
+    position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--gray-100);
+  }
+  nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0;}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:-.02em;}
+  .logo-mark{
+    width:32px;height:32px;border-radius:9px;background:var(--primary);
+    display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:16px;
+  }
+  .nav-links{display:flex;align-items:center;gap:32px;font-size:15px;font-weight:500;color:var(--gray-700);}
+  .nav-links a:hover{color:var(--gray-900);}
+  .nav-cta{display:flex;align-items:center;gap:12px;}
+  .nav-menu-toggle{display:none;background:none;border:none;font-size:24px;cursor:pointer;}
+
+  /* HERO */
+  .hero{padding:88px 0 60px;position:relative;overflow:hidden;}
+  .hero::before{
+    content:"";position:absolute;top:-200px;right:-200px;width:600px;height:600px;
+    background:radial-gradient(circle,var(--primary-light) 0%,rgba(230,245,239,0) 70%);
+    z-index:-1;
+  }
+  .hero-inner{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;}
+  .hero h1{
+    font-size:52px;line-height:1.08;letter-spacing:-.03em;font-weight:800;
+    margin-bottom:20px;color:var(--ink);
+  }
+  .hero h1 span{color:var(--primary);}
+  .hero p.lead{font-size:19px;color:var(--gray-700);margin-bottom:32px;max-width:520px;}
+  .hero-ctas{display:flex;gap:14px;margin-bottom:28px;flex-wrap:wrap;}
+  .hero-note{font-size:14px;color:var(--gray-500);}
+  .hero-note strong{color:var(--gray-900);}
+
+  .phone-mock{
+    background:linear-gradient(160deg,var(--primary) 0%,var(--primary-dark) 100%);
+    border-radius:32px;padding:14px;box-shadow:0 30px 60px -20px rgba(29,158,117,.45);
+    max-width:340px;margin:0 auto;
+  }
+  .phone-screen{
+    background:#fff;border-radius:22px;padding:20px;min-height:520px;
+  }
+  .ps-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
+  .ps-title{font-weight:700;font-size:17px;}
+  .ps-avatar{width:30px;height:30px;border-radius:50%;background:var(--primary-light);}
+  .ps-card{
+    background:var(--gray-100);border-radius:14px;padding:16px;margin-bottom:12px;
+  }
+  .ps-card-title{font-size:13px;color:var(--gray-500);margin-bottom:4px;}
+  .ps-card-value{font-size:22px;font-weight:800;color:var(--ink);}
+  .ps-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+  .ps-pill{
+    display:inline-block;font-size:11px;font-weight:700;color:var(--primary-dark);
+    background:var(--primary-light);padding:4px 10px;border-radius:999px;margin-bottom:8px;
+  }
+  .ps-client{
+    display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--gray-100);
+  }
+  .ps-client-dot{width:36px;height:36px;border-radius:50%;background:var(--primary);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;}
+  .ps-client-name{font-weight:600;font-size:14px;}
+  .ps-client-sub{font-size:12px;color:var(--gray-500);}
+
+  /* LOGOS / STATS */
+  .stats{padding:40px 0;border-top:1px solid var(--gray-100);border-bottom:1px solid var(--gray-100);}
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center;}
+  .stat-num{font-size:32px;font-weight:800;color:var(--primary-dark);letter-spacing:-.02em;}
+  .stat-label{font-size:14px;color:var(--gray-500);margin-top:4px;}
+
+  /* SECTIONS */
+  section{padding:96px 0;}
+  .section-head{max-width:640px;margin:0 auto 56px;text-align:center;}
+  .section-head h2{font-size:38px;font-weight:800;letter-spacing:-.02em;margin-bottom:16px;color:var(--ink);}
+  .section-head p{font-size:17px;color:var(--gray-500);}
+
+  .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .feature-card{
+    padding:32px;border:1px solid var(--gray-100);border-radius:var(--radius);
+    background:var(--white);transition:all .2s ease;
+  }
+  .feature-card:hover{border-color:var(--primary);box-shadow:0 12px 28px -16px rgba(29,158,117,.25);transform:translateY(-2px);}
+  .feature-icon{
+    width:48px;height:48px;border-radius:12px;background:var(--primary-light);
+    display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:18px;
+  }
+  .feature-card h3{font-size:18px;font-weight:700;margin-bottom:10px;}
+  .feature-card p{font-size:15px;color:var(--gray-500);}
+
+  /* HOW IT WORKS */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;counter-reset:step;}
+  .step{position:relative;padding-left:0;}
+  .step-num{
+    width:40px;height:40px;border-radius:50%;background:var(--ink);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;margin-bottom:20px;
+  }
+  .step h3{font-size:19px;font-weight:700;margin-bottom:10px;}
+  .step p{font-size:15px;color:var(--gray-500);}
+
+  /* PRICING */
+  .pricing-bg{background:var(--gray-100);}
+  .billing-toggle{
+    display:flex;justify-content:center;align-items:center;gap:4px;
+    max-width:280px;margin:0 auto 40px;padding:5px;background:var(--gray-100);border-radius:12px;
+  }
+  .toggle-btn{
+    flex:1;border:none;background:transparent;padding:9px 14px;border-radius:8px;
+    font-family:inherit;font-size:14px;font-weight:600;color:var(--gray-500);cursor:pointer;
+    display:flex;align-items:center;justify-content:center;gap:6px;transition:all .15s ease;
+  }
+  .toggle-btn.active{background:#fff;color:var(--gray-900);box-shadow:0 1px 3px rgba(0,0,0,.08);}
+  .save-pill{
+    font-size:11px;font-weight:700;color:var(--primary-dark);background:var(--primary-light);
+    padding:2px 8px;border-radius:999px;
+  }
+  .price-billed-note{font-size:13px;color:var(--gray-500);margin-top:-2px;margin-bottom:18px;}
+  .pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:840px;margin:0 auto;}
+  .price-card{
+    background:#fff;border-radius:20px;padding:36px;border:2px solid var(--gray-100);position:relative;
+  }
+  .price-card.featured{border-color:var(--primary);box-shadow:0 20px 40px -20px rgba(29,158,117,.35);}
+  .price-badge{
+    position:absolute;top:-14px;right:28px;background:var(--primary);color:#fff;
+    font-size:12px;font-weight:700;padding:6px 14px;border-radius:999px;
+  }
+  .price-card h3{font-size:20px;font-weight:700;margin-bottom:6px;}
+  .price-card .price-sub{font-size:14px;color:var(--gray-500);margin-bottom:20px;}
+  .price-amount{font-size:44px;font-weight:800;letter-spacing:-.02em;margin-bottom:2px;}
+  .price-amount span{font-size:16px;font-weight:500;color:var(--gray-500);}
+  .price-card ul{list-style:none;margin:26px 0 30px;}
+  .price-card li{
+    display:flex;align-items:flex-start;gap:10px;font-size:14.5px;color:var(--gray-700);
+    padding:8px 0;
+  }
+  .check{
+    width:18px;height:18px;border-radius:50%;background:var(--primary-light);color:var(--primary-dark);
+    display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:2px;font-weight:700;
+  }
+  .price-card .btn{width:100%;}
+
+  /* FAQ */
+  .faq-list{max-width:760px;margin:0 auto;}
+  .faq-item{border-bottom:1px solid var(--gray-100);padding:24px 0;}
+  .faq-item h3{font-size:16.5px;font-weight:600;margin-bottom:10px;}
+  .faq-item p{font-size:15px;color:var(--gray-500);}
+
+  /* CTA BANNER */
+  .cta-banner{
+    background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%);
+    border-radius:28px;padding:64px 48px;text-align:center;color:#fff;
+    margin:0 24px;
+  }
+  .cta-banner h2{font-size:34px;font-weight:800;margin-bottom:14px;letter-spacing:-.02em;}
+  .cta-banner p{font-size:17px;opacity:.92;margin-bottom:32px;}
+  .cta-ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+
+  /* FOOTER */
+  footer{padding:64px 0 32px;border-top:1px solid var(--gray-100);}
+  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px;margin-bottom:48px;}
+  .footer-brand p{font-size:14px;color:var(--gray-500);margin-top:14px;max-width:260px;}
+  .footer-col h4{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--gray-900);margin-bottom:16px;}
+  .footer-col a{display:block;font-size:14.5px;color:var(--gray-500);padding:6px 0;}
+  .footer-col a:hover{color:var(--primary-dark);}
+  .footer-bottom{
+    display:flex;justify-content:space-between;align-items:center;
+    padding-top:28px;border-top:1px solid var(--gray-100);font-size:13.5px;color:var(--gray-500);flex-wrap:wrap;gap:12px;
+  }
+
+  @media (max-width:860px){
+    .nav-links{display:none;}
+    .nav-menu-toggle{display:block;}
+    .hero-inner{grid-template-columns:1fr;}
+    .hero h1{font-size:38px;}
+    .stats-grid{grid-template-columns:repeat(2,1fr);gap:32px;}
+    .features-grid{grid-template-columns:1fr;}
+    .steps{grid-template-columns:1fr;gap:32px;}
+    .pricing-grid{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+    .cta-banner{margin:0;border-radius:0;padding:56px 24px;}
+    section{padding:64px 0;}
+    .section-head h2{font-size:30px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a href="#" class="logo">
+        <span class="logo-mark">C</span>
+        Closeloop
+      </a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="nav-cta">
+        <a href="mailto:closeloop.app@gmail.com" class="btn btn-ghost">Sign in</a>
+        <a href="#pricing" class="btn btn-primary">Get started</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div>
+      <span class="eyebrow">✦ AI-powered transaction management</span>
+      <h1>Close deals faster. <span>Chase less.</span></h1>
+      <p class="lead">Closeloop keeps every buyer, seller, deadline, and contract in one place — with AI that reads your contracts, tracks state deadlines automatically, and lines up local vendors before your client even asks.</p>
+      <div class="hero-ctas">
+        <a href="#pricing" class="btn btn-primary">Start free trial</a>
+        <a href="#how-it-works" class="btn btn-ghost">See how it works →</a>
+      </div>
+      <p class="hero-note"><strong>No credit card required.</strong> Built for solo agents and teams.</p>
+    </div>
+    <div class="phone-mock">
+      <div class="phone-screen">
+        <div class="ps-header">
+          <div class="ps-title">Dashboard</div>
+          <div class="ps-avatar"></div>
+        </div>
+        <div class="ps-row">
+          <div class="ps-card">
+            <div class="ps-card-title">Active clients</div>
+            <div class="ps-card-value">14</div>
+          </div>
+          <div class="ps-card">
+            <div class="ps-card-title">Closing this week</div>
+            <div class="ps-card-value">3</div>
+          </div>
+        </div>
+        <div class="ps-card" style="margin-bottom:18px;">
+          <div class="ps-card-title">Commission (MTD)</div>
+          <div class="ps-card-value">$18,420</div>
+        </div>
+        <div class="ps-pill">Upcoming deadlines</div>
+        <div class="ps-client">
+          <div class="ps-client-dot">JM</div>
+          <div>
+            <div class="ps-client-name">Jordan Mills — Buyer</div>
+            <div class="ps-client-sub">Inspection deadline · 3 days</div>
+          </div>
+        </div>
+        <div class="ps-client">
+          <div class="ps-client-dot">SR</div>
+          <div>
+            <div class="ps-client-name">Sara Reyes — Seller</div>
+            <div class="ps-client-sub">Closing · Aug 22</div>
+          </div>
+        </div>
+        <div class="ps-client">
+          <div class="ps-client-dot">DK</div>
+          <div>
+            <div class="ps-client-name">Dan Kim — Buyer</div>
+            <div class="ps-client-sub">Appraisal due · 6 days</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="wrap stats-grid">
+    <div><div class="stat-num">50 states</div><div class="stat-label">Contract deadline coverage</div></div>
+    <div><div class="stat-num">AI-scanned</div><div class="stat-label">Contract extraction in seconds</div></div>
+    <div><div class="stat-num">1-tap</div><div class="stat-label">Buyer & seller portals</div></div>
+    <div><div class="stat-num">Live</div><div class="stat-label">Closing countdowns</div></div>
+  </div>
+</div>
+
+<section id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Features</span>
+      <h2>Everything a transaction touches, in one app</h2>
+      <p>Closeloop replaces the spreadsheets, sticky notes, and group texts most agents juggle to keep a deal on track.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📄</div>
+        <h3>AI contract scanning</h3>
+        <p>Snap a photo or upload a PDF. Closeloop's AI extracts key dates, parties, and terms automatically — no manual data entry.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⏱️</div>
+        <h3>State deadline tracking</h3>
+        <p>Inspection, appraisal, loan commitment, and title deadlines calculated automatically from your state's contract rules.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔗</div>
+        <h3>Buyer & seller portals</h3>
+        <p>Give clients a live, branded portal to track their own closing progress — fewer "what's the status?" texts.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌱</div>
+        <h3>Nurture pipeline</h3>
+        <p>Keep cold and warm leads organized with a built-in note log, so no follow-up ever falls through the cracks.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🤝</div>
+        <h3>AI vendor generator</h3>
+        <p>Instantly generate a curated list of local movers, lenders, inspectors, and title companies for every client.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💰</div>
+        <h3>Commission tracking</h3>
+        <p>See commission by deal, by month, and by client at a glance — with clickable stat cards that filter your dashboard.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how-it-works" style="background:var(--gray-100);">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">How it works</span>
+      <h2>Up and running in minutes</h2>
+      <p>No onboarding calls, no training required.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Add a client</h3>
+        <p>Create a buyer or seller record and Closeloop builds a full transaction timeline from your city and state.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Scan the contract</h3>
+        <p>Upload the executed contract — AI pulls out dates, terms, and contingencies so nothing gets missed.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Track to close</h3>
+        <p>Deadlines, vendor recommendations, and client updates flow automatically until the deal closes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Pricing</span>
+      <h2>Simple pricing, built for agents</h2>
+      <p>Start free. Upgrade when your pipeline grows.</p>
+    </div>
+
+    <div class="billing-toggle" role="group" aria-label="Billing period">
+      <button type="button" class="toggle-btn active" data-period="monthly" onclick="setBillingPeriod('monthly')">Monthly</button>
+      <button type="button" class="toggle-btn" data-period="annual" onclick="setBillingPeriod('annual')">
+        Annual <span class="save-pill">Save 17%</span>
+      </button>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="price-card">
+        <h3>Pro</h3>
+        <p class="price-sub">For individual agents</p>
+        <div class="price-amount">
+          <span class="price-monthly">$39<span>/mo</span></span>
+          <span class="price-annual" hidden>$32.50<span>/mo</span></span>
+        </div>
+        <p class="price-billed-note price-annual" hidden>Billed annually at $390/yr</p>
+        <ul>
+          <li><span class="check">✓</span> Unlimited clients &amp; transactions</li>
+          <li><span class="check">✓</span> AI contract scanning</li>
+          <li><span class="check">✓</span> State deadline tracking</li>
+          <li><span class="check">✓</span> Buyer &amp; seller portals</li>
+          <li><span class="check">✓</span> Nurture pipeline</li>
+          <li><span class="check">✓</span> AI vendor generation</li>
+        </ul>
+        <a href="mailto:closeloop.app@gmail.com?subject=Closeloop%20Pro%20signup" class="btn btn-ghost">Start with Pro</a>
+      </div>
+      <div class="price-card featured">
+        <span class="price-badge">Most popular</span>
+        <h3>Team</h3>
+        <p class="price-sub">For brokerages &amp; teams</p>
+        <div class="price-amount">
+          <span class="price-monthly">$99<span>/mo</span></span>
+          <span class="price-annual" hidden>$82.50<span>/mo</span></span>
+        </div>
+        <p class="price-billed-note price-annual" hidden>Billed annually at $990/yr</p>
+        <ul>
+          <li><span class="check">✓</span> Everything in Pro</li>
+          <li><span class="check">✓</span> Multi-agent team management</li>
+          <li><span class="check">✓</span> Shared vendor network</li>
+          <li><span class="check">✓</span> Team commission reporting</li>
+          <li><span class="check">✓</span> Priority support</li>
+          <li><span class="check">✓</span> Custom onboarding</li>
+        </ul>
+        <a href="mailto:closeloop.app@gmail.com?subject=Closeloop%20Team%20signup" class="btn btn-primary">Start with Team</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function setBillingPeriod(period){
+    document.querySelectorAll('.toggle-btn').forEach(function(btn){
+      btn.classList.toggle('active', btn.getAttribute('data-period') === period);
+    });
+    document.querySelectorAll('.price-monthly').forEach(function(el){ el.hidden = period !== 'monthly'; });
+    document.querySelectorAll('.price-annual').forEach(function(el){ el.hidden = period !== 'annual'; });
+  }
+</script>
+
+<section id="faq" style="background:var(--gray-100);">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">FAQ</span>
+      <h2>Questions, answered</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <h3>What states does Closeloop support?</h3>
+        <p>Closeloop ships with contract deadline data for major real estate markets and a sensible default for any other state, with more states added regularly.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How accurate is the AI contract scanning?</h3>
+        <p>Closeloop uses Claude, Anthropic's AI model, to extract dates and terms from your uploaded contracts. Always double-check extracted dates against your signed contract before relying on them.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Can my clients see their own portal?</h3>
+        <p>Yes — every buyer and seller gets a private, branded link to track their transaction's progress in real time.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is there a free trial?</h3>
+        <p>Yes, new accounts start with a free trial of the Pro plan — no credit card required to get started.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Can I cancel anytime?</h3>
+        <p>Yes. Closeloop is billed monthly with no long-term contract, and you can cancel from your account settings at any time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="cta-banner">
+    <h2>Ready to close your next deal faster?</h2>
+    <p>Join agents who've traded spreadsheets for a system that actually keeps up.</p>
+    <div class="cta-ctas">
+      <a href="mailto:closeloop.app@gmail.com?subject=Closeloop%20signup" class="btn btn-light">Start free trial</a>
+      <a href="mailto:closeloop.app@gmail.com" class="btn" style="border:1px solid rgba(255,255,255,.5);color:#fff;">Talk to us</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo"><span class="logo-mark">C</span>Closeloop</a>
+        <p>The AI-powered transaction management platform for real estate agents. A product of Vestry LLC.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#how-it-works">How it works</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="mailto:closeloop.app@gmail.com">Contact</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Vestry LLC. All rights reserved.</div>
+      <div>closeloophq.org</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
